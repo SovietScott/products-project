@@ -1,0 +1,19 @@
+table{
+  width: 100%;
+}
+
+mat-card-actions{
+  justify-content: center;
+}
+
+.loading-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.15);
+
+  mat-spinner{
+    margin: 20px 0 20px 0;
+  }
+}
+
