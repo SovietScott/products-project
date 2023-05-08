@@ -7,7 +7,7 @@ import { delay, pipe , take } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductListService {
-  private readonly API = '/assets/data-set-example.json'; // ou '/assets/data-set-example.json'
+  private readonly API = 'api/products'; // ou '/assets/data-set-example.json'
 
   constructor(private http: HttpClient) {}
 

@@ -10,23 +10,13 @@ import lombok.Data;
 
 @Data // Implementa Getters, Setters, ToString e Hashcodes
 @Entity // Especifica a classe como Entidade mapeada no banco de dados
-public class Product implements Serializable{
+public class Discount implements Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  public Long id;
+  private Long id;
 
-  @Column(length = 50, nullable = false)
-  public String name;
-
-  @Column(length = 200, nullable = true)
-  public String description;
-
-  @Column(length = 6, nullable = false)
-  public String price;
-
-  /*@Column(nullable = true)
-  @OneToMany(mappedBy = "Category", fetch = FetchType.LAZY, orphanRemoval = false)
-  private List<Category> listCategory;*/
+  @Column(length = 2,nullable = false)
+  private int percent;
 
 }
