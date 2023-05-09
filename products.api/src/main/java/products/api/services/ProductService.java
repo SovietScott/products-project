@@ -27,5 +27,9 @@ public class ProductService {
   public Iterable<Product> save(List<Product> products){
     return productRepository.saveAll(products);
   }
+
+  public void deleteAll(){
+    this.productRepository.deleteAll();
+  }
   
 }
