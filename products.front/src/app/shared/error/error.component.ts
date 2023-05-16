@@ -6,9 +6,8 @@ export class ErrorComponent implements OnInit{
   constructor(private snackbar : MatSnackBar, private zone: NgZone){}
 
   public open(message : string, action : string = 'Remover Aviso'): void{
-    this.zone.run( () => this.snackbar.open(message,action) )
+    this.zone.run( () => this.snackbar.open(message,action))
   };
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

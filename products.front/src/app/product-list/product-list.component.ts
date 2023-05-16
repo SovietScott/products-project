@@ -1,8 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ProductListService } from '../services/product-list/product-list.service';
 import { ErrorComponent } from '../shared/error/error.component';
 import { Products } from '../models/products';
-import { EMPTY, Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -11,44 +11,55 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit{
-  protected PRODUCTS_DATA$ : Observable<Products[]>;
+  @Input() PRODUCTS_DATA$ : Observable<Products[]> | null = null;
+
   displayedColumns: string[] = ['id','name','description','price', 'actions'];
 
   constructor(private productsList : ProductListService, 
     public error : ErrorComponent, private router : Router,
     private route : ActivatedRoute){
-    this.PRODUCTS_DATA$ = this.productsList.listAll()
-    .pipe( catchError(error => {
-      this.onError(error.message)
-      return of([]);
-    }));
-    
+    this.refresh();
   };
+
+  refresh(){
+    this.PRODUCTS_DATA$ = this.productsList.listAll()
+    .pipe( catchError(() => {
+      this.onError('Erro ao carregar produtos')
+      return of([]);
+    }))
+  }
 
   onAdd(){
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
-  onCall(type : string) : Observable<Products[]> | null{
+  onEdit(id : string){
+    // this.router.navigate([`edit/${id}`], {relativeTo: this.route})
+  }
+
+  onCall(type : string) : Observable<Products[]> | null | void{
     if (type === 'DELETE'){
-      this.productsList.deleteAll()
-      return this.PRODUCTS_DATA$ = of([]);
-    }
-    else if (type === 'PATCH'){
-      return this.PRODUCTS_DATA$ = this.productsList.resetAll()
-      .pipe( catchError(error => {
-        this.onError(error.message)
+      return this.PRODUCTS_DATA$ = this.productsList.deleteAll()
+      .pipe( catchError(() => {
+        this.onError('Erro ao deletar lista de produtos')
         return of([]);
       }));
     }
-    return null;
+    else if (type === 'PATCH'){
+      return this.PRODUCTS_DATA$ = this.productsList.resetAll()
+      .pipe( catchError(() => {
+        this.onError('Erro ao reinicializar lista de produtos')
+        return of([]);
+      }));
+    }
+    else{
+      return of([]);
+    }
   }
   
   onError(message : string){
     this.error.open(message);
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

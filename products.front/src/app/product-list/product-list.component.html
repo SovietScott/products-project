@@ -7,9 +7,12 @@
   </mat-card-header>
 
   <ng-template #loading>
+    <div class="custom-message">
+        <tr>Não há produtos disponíveis no momento, por favor espere ou adicione algum</tr>
+    </div> 
     <div class="loading-container">
       <mat-spinner color="accent"></mat-spinner>
-    </div> 
+    </div>
   </ng-template>
 
   <mat-card-content>
